@@ -27,10 +27,10 @@
     "test-harmony": "node --harmony ./bin/cake test"
   },
   "homepage": "http://coffeescript.org",
-  "bugs": "https://github.com/jashkenas/coffeescript/issues",
+  "bugs": "https://github.com/decaffeinate/coffeescript/issues",
   "repository": {
     "type": "git",
-    "url": "git://github.com/jashkenas/coffeescript.git"
+    "url": "git://github.com/decaffeinate/coffeescript.git"
   },
   "devDependencies": {
     "uglify-js": "~2.2",
