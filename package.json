@@ -1,6 +1,6 @@
 {
-  "name": "coffee-script",
-  "description": "Unfancy JavaScript",
+  "name": "decaffeinate-coffeescript",
+  "description": "decaffeinate fork of the CoffeeScript implementation",
   "keywords": [
     "javascript",
     "language",
