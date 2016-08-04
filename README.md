@@ -1,62 +1,47 @@
-                                               @@@@@@@                @@@@  @@@@@
-                    {                         @@@@@@@@@@              @@@   @@@
-                 }   }   {                   @@@@     @@              @@@   @@@
-                {   {  }  }                 @@@@          @@@@@@@    @@@   @@@     @@@@@@    @@@@@@
-                 }   }{  {                 @@@@          @@@   @@  @@@@@  @@@@@@  @@@   @@  @@@@  @@
-                {  }{  }  }                @@@@         @@@@   @@   @@@    @@@   @@@   @@@ @@@   @@@
-               { }{ }{  { }                @@@@        @@@@    @@   @@@    @@@   @@@@@@@@  @@@@@@@@
-             {  { } { } { }  }             @@@@@       @@@@   @@    @@@    @@@   @@@       @@@
-              { }   { }   { }               @@@@@@@@@@ @@@@@@@@    @@@    @@@    @@@@@@@@  @@@@@@@@
-       @@@@@@   { }   { }    @@@@@@@           @@@@@               @@@    @@@      @@@@@     @@@@@
-       @@@@@@@@@@@@@@@@@@@@@@@@@@@@                               @@@    @@@
-     @@ @@@@@@@@@@@@@@@@@@@@@@@@@@             @@@@@@            @@@    @@@
-    @@   @@@@@@@@@@@@@@@@@@@@@@@@           @@@@    @@          @@@   @@@@
-    @@@   @@@@@@@@@@@@@@@@@@@@@             @@@@   @@@                       @@                  @@@@
-     @@@    @@@@@@@@@@@@@@@@@@              @@@@@          @@@@@   @@  @@   @@@     @@@@@@@     @@@@@
-       @@@   @@@@@@@@@@@@@@@@                 @@@@@      @@@  @@@ @@@@@@@@         @@@@  @@@@  @@@@@@@
-              @@@@@@@@@@@@@@                    @@@@@   @@@       @@@@     @@@@    @@@    @@@   @@@
-                                          @@@@@  @@@@  @@@@      @@@@      @@@@   @@@@   @@@@  @@@@
-                                         @@@     @@@@  @@@       @@@@     @@@@    @@@    @@@@  @@@@
-                                         @@@     @@@@  @@@@     @@@@      @@@@   @@@@   @@@@  @@@@
-                                          @@@@@@@@@     @@@@@@  @@@@       @@@@  @@@@@@@@@    @@@@
-                                                                                 @@@          @@@@
-                                                                                @@@
-                                                                                @@@
+# decaffeinate fork of CoffeeScript
 
-CoffeeScript is a little language that compiles into JavaScript.
+This is is a fork of the CoffeeScript implementation with some small patches
+that are useful to the [decaffeinate](http://decaffeinate-project.org/) project.
+It also contains TypeScript types for working with the CoffeeScript AST.
 
-## Installation
+It is available on npm under the name
+[decaffeinate-coffeescript](https://www.npmjs.com/package/decaffeinate-coffeescript),
+but the intention is that it will only be useful for decaffeinate and its
+dependencies.
 
-Once you have Node.js installed:
+## Process
 
-```shell
-npm install --global coffeescript
-```
+The main purpose of this process approach is to make it easy to make patches to
+CoffeeScript while also not interfering with branch names or version numbers.
+Any of these steps could probably be automated, but since this fork will likely
+have very few changes, we'll just follow the process manually for now.
 
-Leave off the `--global` if you don’t wish to install globally.
+### Branch/release strategy
 
-## Getting Started
+All work is done on a branch directly off of the most recent release, currently
+1.12.7. Work is done on a branch called `decaffeinate-fork-1.12.7`, which is
+also specified as the GitHub default branch. Ideally, the git history should be
+clean, and make it clear which changes have been made on top of the official
+release.
 
-Execute a script:
+Release names are based on the CoffeeScript release, with a patch number as a
+suffix. So the first patch is version `1.12.7-patch.1`, then `1-12.7-patch.2`,
+etc. Semantic versioning isn't too important here since this package is just for
+internal use within the decaffeinate project.
 
-```shell
-coffee /path/to/script.coffee
-```
+### Submitting a new patch
 
-Compile a script:
+Patches are submitted as pull requests to the most recent fork branch. If the
+patch is a bug fix, we also make a reasonable effort to submit a PR to the
+official CoffeeScript repo on the master branch.
 
-```shell
-coffee -c /path/to/script.coffee
-```
+Once the patch is landed, we make another commit updating package.json with the
+new version number and publish the result to npm.
 
-For documentation, usage, and examples, see: http://coffeescript.org/
+### Dealing with CoffeeScript updates
 
-To suggest a feature or report a bug: https://github.com/jashkenas/coffeescript/issues
-
-If you’d like to chat, drop by #coffeescript on Freenode IRC.
-
-The source repository: https://github.com/jashkenas/coffeescript.git
-
-Changelog: http://coffeescript.org/#changelog
-
-Our lovely and talented contributors are listed here: https://github.com/jashkenas/coffeescript/contributors
+Whenever CoffeeScript releases a new version, we will switch to a new branch
+based on the new release and re-apply the relevant patches using cherry-picks.
+We'll skip irrelevant changes like the package.json commits. This should
+hopefully keep the git history understandable and keep this repository focused
+as a small set of well-understood patches.
