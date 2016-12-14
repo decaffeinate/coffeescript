@@ -18,6 +18,7 @@
   },
   "main": "./lib/coffeescript/index",
   "browser": "./lib/coffeescript/browser",
+  "types": "./lib/coffeescript/coffeescript.d.ts",
   "bin": {
     "coffee": "./bin/coffee",
     "cake": "./bin/cake"
