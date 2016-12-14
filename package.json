@@ -17,6 +17,7 @@
     "lib": "./lib/coffee-script"
   },
   "main": "./lib/coffee-script/coffee-script",
+  "types": "./lib/coffee-script/coffee-script.d.ts",
   "bin": {
     "coffee": "./bin/coffee",
     "cake": "./bin/cake"
