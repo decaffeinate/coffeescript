@@ -1,4 +1,4 @@
-import Scope from './Scope';
+import Scope from './scope';
 import { Token } from './lexer';
 
 export type LocationData = {
