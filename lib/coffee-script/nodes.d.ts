@@ -41,6 +41,8 @@ export class CodeFragment {
  * scope, and indentation level.
  */
 export class Base {
+  locationData: LocationData;
+
   compile(o: CompileContext, lvl: number): string;
 
   /**
@@ -151,6 +153,7 @@ export class Base {
  * `if`, `switch`, or `try`, and so on...
  */
 export class Block extends Base {
+  expressions: Array<Base>;
   classBody?: boolean;
 
   children: ['expressions']
@@ -211,9 +214,9 @@ export class Block extends Base {
 }
 
 export class Literal extends Base {
-  value: Base;
+  value: string;
 
-  constructor(value: Base);
+  constructor(value: string);
 }
 
 export class Undefined extends Base {}
@@ -614,9 +617,9 @@ export class Existence extends Base {
  * Parentheses are a good way to force any statement to become an expression.
  */
 export class Parens extends Base {
-  body: Base;
+  body: Block;
 
-  constructor(body: Base);
+  constructor(body: Block);
 }
 
 type ForOptions = {
