@@ -617,9 +617,9 @@ export class Existence extends Base {
  * Parentheses are a good way to force any statement to become an expression.
  */
 export class Parens extends Base {
-  body: Base;
+  body: Block;
 
-  constructor(body: Base);
+  constructor(body: Block);
 }
 
 type ForOptions = {
