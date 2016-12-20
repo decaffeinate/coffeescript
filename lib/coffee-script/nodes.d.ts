@@ -153,6 +153,7 @@ export class Base {
  * `if`, `switch`, or `try`, and so on...
  */
 export class Block extends Base {
+  expressions: Array<Base>;
   classBody?: boolean;
 
   children: ['expressions']
