@@ -213,9 +213,9 @@ export class Block extends Base {
 }
 
 export class Literal extends Base {
-  value: Base;
+  value: string;
 
-  constructor(value: Base);
+  constructor(value: string);
 }
 
 export class Undefined extends Base {}
