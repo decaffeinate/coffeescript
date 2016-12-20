@@ -41,6 +41,8 @@ export class CodeFragment {
  * scope, and indentation level.
  */
 export class Base {
+  locationData: LocationData;
+
   compile(o: CompileContext, lvl: number): string;
 
   /**
