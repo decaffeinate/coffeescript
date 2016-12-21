@@ -222,9 +222,9 @@ export class Literal extends Base {
 export class Undefined extends Base {}
 export class Null extends Base {}
 export class Bool extends Base {
-  val: boolean;
+  val: string;
 
-  constructor(val: boolean);
+  constructor(val: string);
 }
 
 export class Return extends Base {
