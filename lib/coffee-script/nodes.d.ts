@@ -228,9 +228,9 @@ export class Bool extends Base {
 }
 
 export class Return extends Base {
-  expression: Base;
+  expression?: Base;
 
-  constructor(expression: Base);
+  constructor(expression?: Base);
 }
 
 export class Value extends Base {
