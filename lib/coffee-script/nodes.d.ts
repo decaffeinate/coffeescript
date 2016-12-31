@@ -487,6 +487,10 @@ export class Code extends Base {
  * as well as be a splat, gathering up a group of parameters into an array.
  */
 export class Param extends Base {
+  name: Base;
+  value: Base | null;
+  splat: boolean;
+
   constructor(name: Base, value: Base, splat: boolean);
 
   asReference(o: CompileContext);
