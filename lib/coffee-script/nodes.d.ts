@@ -105,6 +105,7 @@ export class Base {
    */
   eachChild(func: (child: Base) => boolean | undefined);
   traverseChildren(crossScope: boolean, func: (child: Base) => boolean | undefined);
+  inverted: boolean;
   invert(): Base;
   unwrapAll(): Base;
 
@@ -501,6 +502,8 @@ export class Param extends Base {
  * or as part of a destructuring assignment.
  */
 export class Splat extends Base {
+  name: Base;
+
   constructor(name: Base | string);
 
   /**
@@ -525,7 +528,7 @@ export class Expansion extends Base {
  */
 export class While extends Base {
   condition: Base;
-  guard: boolean;
+  guard?: Base;
   body?: Base;
 
   constructor(condition: Base, options?: { invert?: boolean, guard?: boolean });
@@ -586,7 +589,7 @@ export class In extends Base {
  * A classic *try/catch/finally* block.
  */
 export class Try extends Base {
-  attempt: Base;
+  attempt?: Base;
   errorVariable?: Base;
   recovery?: Base;
   ensure?: Base;
