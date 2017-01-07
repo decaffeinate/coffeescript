@@ -463,6 +463,9 @@ type AssignOptions = {
  * property of an object -- including within object literals.
  */
 export class Assign extends Base {
+  variable: Base;
+  value: Base;
+
   constructor(variable: Base, value: Base, context: string | Array<string>, options: AssignOptions);
 }
 
@@ -679,17 +682,17 @@ export class Switch extends Base {
  */
 export class If extends Base {
   condition: Base;
-  body?: Base;
-  elseBody?: Base;
+  body: Block;
+  elseBody?: Block;
   isChain: boolean;
   soak: boolean;
 
-  constructor(condition: Base, body: Base, options?: { soak: boolean });
+  constructor(condition: Base, body: Block, options?: { soak: boolean });
 
   /**
    * Rewrite a chain of **Ifs** to add a default case as the final *else*.
    */
-  addElse(elseBody: Base): this;
+  addElse(elseBody: Block): this;
 
   /**
    * Compile the `If` as a regular *if-else* statement. Flattened chains
