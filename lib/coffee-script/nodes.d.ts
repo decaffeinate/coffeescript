@@ -465,8 +465,12 @@ type AssignOptions = {
 export class Assign extends Base {
   variable: Base;
   value: Base;
+  context?: string;
+  param?: boolean;
+  subpattern?: boolean;
+  operatorToken?: Token;
 
-  constructor(variable: Base, value: Base, context: string | Array<string>, options: AssignOptions);
+  constructor(variable: Base, value: Base, context?: string, options?: AssignOptions);
 }
 
 /**
@@ -582,10 +586,13 @@ export class Op extends Base {
 }
 
 export class In extends Base {
+  object: Base;
+  array: Base;
+
   constructor(object: Base, array: Base);
 
   compileOrTest(o: CompileContext): Array<CodeFragment>;
-  compileLoopTes(o: CompileContext): Array<CodeFragment>;t
+  compileLoopTest(o: CompileContext): Array<CodeFragment>;
 }
 
 /**
@@ -655,22 +662,26 @@ export class For extends While {
   own: boolean;
   object: boolean;
   returns: boolean;
-  name: Base;
-  index: Base;
+  name?: Base;
+  index?: Base;
+  source: Base;
+  step?: Base;
   pattern: boolean;
 
   constructor(body: Base, source: ForOptions);
 }
+
+export type SwitchCaseCondition = Base | Array<Base>;
 
 /**
  * A JavaScript *switch* statement. Converts into a returnable expression on-demand.
  */
 export class Switch extends Base {
   subject: Base;
-  cases: Array<[ Base, Block ]>;
-  otherwise: Base;
+  cases: Array<[ SwitchCaseCondition, Block ]>;
+  otherwise?: Block;
 
-  constructor(subject: Base | null, cases: Array<[ Base, Block ]>, otherwise: Base);
+  constructor(subject: Base | null, cases: Array<[ SwitchCaseCondition, Block ]>, otherwise: Base);
 }
 
 /**
