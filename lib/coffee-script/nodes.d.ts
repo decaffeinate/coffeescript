@@ -658,7 +658,7 @@ type ForOptions = {
  */
 export class For extends While {
   range: boolean;
-  body: Base;
+  body: Block;
   own: boolean;
   object: boolean;
   returns: boolean;
