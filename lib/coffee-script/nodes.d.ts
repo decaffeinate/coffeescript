@@ -550,7 +550,7 @@ export class While extends Base {
 export class Op extends Base {
   operator: string;
   first: Base;
-  second: Base;
+  second?: Base;
   flip: boolean;
 
   constructor(op: string, first: Base, second: Base, flip: boolean);
