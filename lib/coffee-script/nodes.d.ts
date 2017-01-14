@@ -402,8 +402,8 @@ export class Arr extends Base {
  * list of prototype property assignments.
  */
 export class Class extends Base {
-  variable: Base;
-  parent: Base | null;
+  variable?: Base;
+  parent?: Base;
   body: Block;
   boundFuncs: Array<Code>;
   directives?: Array<Base>;
