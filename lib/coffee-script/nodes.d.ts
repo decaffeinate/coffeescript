@@ -287,7 +287,10 @@ export class Comment extends Base {
 export class Call extends Base {
   isNew: boolean;
   isSuper: boolean;
-  variable: Base;
+  soak: boolean;
+  do: boolean;
+  variable: Base | null;
+  args: Array<Base>;
 
   /**
    * Tag this invocation as creating a new instance.
