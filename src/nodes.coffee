@@ -603,6 +603,21 @@ exports.Call = class Call extends Base
 
   children: ['variable', 'args']
 
+  # When setting the location, we sometimes need to update the start location to
+  # account for a newly-discovered `new` operator to the left of us. This
+  # expands the range on the left, but not the right.
+  updateLocationDataIfMissing: (locationData) ->
+    if @locationData and @needsUpdatedStartLocation
+      @locationData.first_line = locationData.first_line
+      @locationData.first_column = locationData.first_column
+      base = @variable?.base or @variable
+      if base.needsUpdatedStartLocation
+        @variable.locationData.first_line = locationData.first_line
+        @variable.locationData.first_column = locationData.first_column
+        base.updateLocationDataIfMissing locationData
+      delete @needsUpdatedStartLocation
+    super
+
   # Tag this invocation as creating a new instance.
   newInstance: ->
     base = @variable?.base or @variable
@@ -610,6 +625,7 @@ exports.Call = class Call extends Base
       base.newInstance()
     else
       @isNew = true
+    @needsUpdatedStartLocation = true
     this
 
   # Grab the reference to the superclass's implementation of the current
