@@ -236,14 +236,14 @@ export class Return extends Base {
 
 export class Value extends Base {
   base: Base;
-  properties: Array<Access>;
+  properties: Array<Access | Index | Slice>;
 
-  constructor(base: Base, props: Array<Access>, tag: string);
+  constructor(base: Base, props: Array<Access | Index | Slice>, tag: string);
 
   /**
    * Add a property (or *properties* ) `Access` to the list.
    */
-  add(props: Array<Access>): this;
+  add(props: Array<Access | Index | Slice>): this;
   hasProperties(): boolean;
   bareLiteral(type: typeof Base): boolean;
 
