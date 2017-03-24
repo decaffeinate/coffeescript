@@ -358,8 +358,8 @@ export class Index extends Base {
  * corresponding array of integers at runtime.
  */
 export class Range extends Base {
-  from: Base;
-  to: Base;
+  from: Base | null;
+  to: Base | null;
   exclusive: boolean;
   equals: boolean;
 
