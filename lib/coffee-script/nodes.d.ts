@@ -348,6 +348,7 @@ export class Access extends Base {
   */
 export class Index extends Base {
   index: Base;
+  soak?: boolean;
 
   constructor(index: Base);
 }
@@ -377,6 +378,7 @@ export class Range extends Base {
  */
 export class Slice extends Base {
   range: Range;
+  soak?: boolean;
 
   constructor(range: Range);
 }
