@@ -296,29 +296,3 @@ formatSourcePosition = (frame, getSourceMapping) ->
     "#{functionName} (#{fileLocation})"
   else
     fileLocation
-
-# Map of filenames -> sourceMap object.
-sourceMaps = {}
-
-# Generates the source map for a coffee file and stores it in the local cache variable.
-getSourceMap = (filename) ->
-  return sourceMaps[filename] if sourceMaps[filename]
-  return unless path?.extname(filename) in exports.FILE_EXTENSIONS
-  answer = exports._compileFile filename, true
-  sourceMaps[filename] = answer.sourceMap
-
-# Based on [michaelficarra/CoffeeScriptRedux](http://goo.gl/ZTx1p)
-# NodeJS / V8 have no support for transforming positions in stack traces using
-# sourceMap, so we must monkey-patch Error to display CoffeeScript source
-# positions.
-Error.prepareStackTrace = (err, stack) ->
-  getSourceMapping = (filename, line, column) ->
-    sourceMap = getSourceMap filename
-    answer = sourceMap.sourceLocation [line - 1, column - 1] if sourceMap
-    if answer then [answer[0] + 1, answer[1] + 1] else null
-
-  frames = for frame in stack
-    break if frame.getFunction() is exports.run
-    "  at #{formatSourcePosition frame, getSourceMapping}"
-
-  "#{err.toString()}\n#{frames.join '\n'}\n"
