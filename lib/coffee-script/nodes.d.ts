@@ -541,7 +541,7 @@ export class Expansion extends Base {
 export class While extends Base {
   condition: Base;
   guard?: Base;
-  body?: Base;
+  body?: Block;
 
   constructor(condition: Base, options?: { invert?: boolean, guard?: boolean });
 
@@ -604,12 +604,12 @@ export class In extends Base {
  * A classic *try/catch/finally* block.
  */
 export class Try extends Base {
-  attempt?: Base;
+  attempt?: Block;
   errorVariable?: Base;
-  recovery?: Base;
-  ensure?: Base;
+  recovery?: Block;
+  ensure?: Block;
 
-   constructor(attempt: Base, errorVariable?: Base, recovery?: Base, ensure?: Base);
+  constructor(attempt: Base, errorVariable?: Base, recovery?: Base, ensure?: Base);
 }
 
 /**
