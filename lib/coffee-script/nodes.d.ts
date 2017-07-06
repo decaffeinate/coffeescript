@@ -103,8 +103,8 @@ export class Base {
   /**
    * Passes each child to a function, breaking when the function returns `false`.
    */
-  eachChild(func: (child: Base) => boolean | undefined);
-  traverseChildren(crossScope: boolean, func: (child: Base) => boolean | undefined);
+  eachChild(func: (child: Base) => boolean | undefined): this;
+  traverseChildren(crossScope: boolean, func: (child: Base) => boolean | undefined): this;
   inverted: boolean;
   invert(): Base;
   unwrapAll(): Base;
@@ -131,12 +131,12 @@ export class Base {
    * For this node and all descendents, set the location data to `locationData`
    * if the location data is not already set.
    */
-  updateLocationDataIfMissing(locationData: LocationData);
+  updateLocationDataIfMissing(locationData: LocationData): this;
 
   /**
    * Throw a SyntaxError associated with this node's location.
    */
-  error(message: string);
+  error(message: string): void;
   makeCode(code: string): CodeFragment;
   wrapInBraces(fragments: Array<CodeFragment>): Array<CodeFragment>;
 
@@ -301,12 +301,12 @@ export class Call extends Base {
    * Grab the reference to the superclass's implementation of the current
    * method.
    */
-  superReference(o: CompileContext);
+  superReference(o: CompileContext): string;
 
   /**
    * The appropriate `this` value for a `super` call.
    */
-  superThis(o: CompileContext);
+  superThis(o: CompileContext): string;
 
   /**
    * If you call a function with a splat, it's converted into a JavaScript
@@ -316,7 +316,7 @@ export class Call extends Base {
    *
    * splatArgs is an array of CodeFragments to put into the 'apply'.
    */
-  compileSplat(o: CompileContext, splatArgs: Array<CodeFragment>);
+  compileSplat(o: CompileContext, splatArgs: Array<CodeFragment>): Array<CodeFragment>;
 }
 
 
@@ -368,7 +368,7 @@ export class Range extends Base {
    * Compiles the range's source variables -- where it starts and where it ends.
    * But only if they need to be cached to avoid double evaluation.
    */
-  compileVariables(o: CompileContext);
+  compileVariables(o: CompileContext): void;
 }
 
 /**
@@ -423,13 +423,13 @@ export class Class extends Base {
    * For all `this`-references and bound functions in the class definition,
    * `this` is the Class being constructed.
    */
-  setContext(name: string);
+  setContext(name: string): void;
 
   /**
    * Ensure that all functions bound to the instance are proxied in the
    * constructor.
    */
-  addBoundFunctions(o: CompileContext);
+  addBoundFunctions(o: CompileContext): void;
 
   /**
    * Merge the properties from a top-level object as prototypal properties
@@ -441,20 +441,20 @@ export class Class extends Base {
    * Walk the body of the class, looking for prototype properties to be converted
    * and tagging static assignments.
    */
-  walkBody(name: string, o: CompileContext);
+  walkBody(name: string, o: CompileContext): this;
 
   /**
    * `use strict` (and other directives) must be the first expression statement(s)
    * of a function body. This method ensures the prologue is correctly positioned
    * above the `constructor`.
    */
-  hoistDirectivePrologue();
+  hoistDirectivePrologue(): void;
 
   /**
    * Make sure that a constructor is defined for the class, and properly
    * configured.
    */
-  ensureConstructor(name: string);
+  ensureConstructor(name: string): void;
 }
 
 type AssignOptions = {
@@ -506,7 +506,7 @@ export class Param extends Base {
 
   constructor(name: Base, value: Base, splat: boolean);
 
-  asReference(o: CompileContext);
+  asReference(o: CompileContext): Base;
 }
 
 /**
@@ -522,7 +522,8 @@ export class Splat extends Base {
    * Utility function that converts an arbitrary number of elements, mixed with
    * splats, to a proper array.
    */
-  static compileSplattedArray(o: CompileContext, list: Array<Base>, apply: boolean);
+  static compileSplattedArray(
+    o: CompileContext, list: Array<Base>, apply: boolean): Array<CodeFragment>;
 }
 
 /**
