@@ -56,4 +56,4 @@ export function nodes(source: string | Array<Token>, options?: LexerOptions): Bl
  * Compile and execute a string of CoffeeScript (on the server), correctly
  * setting `__filename`, `__dirname`, and relative `require()`.
  */
-export function run(code: string, options?: RunOptions);
+export function run(code: string, options?: RunOptions): void;
