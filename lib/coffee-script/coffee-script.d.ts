@@ -6,6 +6,7 @@ export const VERSION: string;
 export const FILE_EXTENSIONS: Array<string>;
 
 interface CompileOptions {
+  bare?: boolean;
   header?: boolean;
   shiftLine?: boolean;
 
@@ -38,7 +39,7 @@ interface RunOptions extends CompileOptions {
  * object, where sourceMap is a sourcemap.coffee#SourceMap object, handy for doing programatic
  * lookups.
  */
-export function compile(code: string, options?: CompileOptions): CompileResult;
+export function compile(code: string, options?: CompileOptions): string | CompileResult;
 
 /**
  * Tokenize a string of CoffeeScript code, and return the array of tokens.
