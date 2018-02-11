@@ -102,43 +102,6 @@ if require?
     doesNotThrow(-> error.stack)
     notEqual error.stack.toString().indexOf(filePath), -1
 
-  test "#4418 stack traces for compiled files reference the correct line number", ->
-    filePath = path.join os.tmpdir(), 'StackTraceLineNumberTestFile.coffee'
-    fileContents = """
-      testCompiledFileStackTraceLineNumber = ->
-        # `a` on the next line is undefined and should throw a ReferenceError
-        console.log a if true
-
-      do testCompiledFileStackTraceLineNumber
-      """
-    fs.writeFileSync filePath, fileContents
-
-    try
-      require filePath
-    catch error
-    fs.unlinkSync filePath
-
-    # Make sure the line number reported is line 3 (the original Coffee source)
-    # and not line 6 (the generated JavaScript).
-    eq /StackTraceLineNumberTestFile.coffee:(\d)/.exec(error.stack.toString())[1], '3'
-
-
-test "#4418 stack traces for compiled strings reference the correct line number", ->
-  try
-    CoffeeScript.run """
-      testCompiledStringStackTraceLineNumber = ->
-        # `a` on the next line is undefined and should throw a ReferenceError
-        console.log a if true
-
-      do testCompiledStringStackTraceLineNumber
-      """
-  catch error
-
-  # Make sure the line number reported is line 3 (the original Coffee source)
-  # and not line 6 (the generated JavaScript).
-  eq /at testCompiledStringStackTraceLineNumber.*:(\d):/.exec(error.stack.toString())[1], '3'
-
-
 test "#1096: unexpected generated tokens", ->
   # Implicit ends
   assertErrorFormat 'a:, b', '''
