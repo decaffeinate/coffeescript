@@ -214,25 +214,37 @@ export class Block extends Base {
   constructor(nodes?: Array<Base>);
 }
 
+/**
+ * `Literal` is a base class for static values that can be passed through
+ * directly into JavaScript without translation, such as: strings, numbers,
+ * `true`, `false`, `null`...
+ */
 export class Literal extends Base {
   value: string;
 
   constructor(value: string);
 }
 
-export class Undefined extends Base {}
-export class Null extends Base {}
-export class Bool extends Base {
-  val: string;
-
-  constructor(val: string);
-}
+export class NumberLiteral extends Literal {}
+export class InfinityLiteral extends NumberLiteral {}
+export class NaNLiteral extends NumberLiteral {}
+export class StringLiteral extends Literal {}
+export class RegexLiteral extends Literal {}
+export class PassthroughLiteral extends Literal {}
+export class IdentifierLiteral extends Literal {}
+export class PropertyName extends Literal {}
+export class StatementLiteral extends Literal {}
+export class ThisLiteral extends Literal {}
+export class UndefinedLiteral extends Literal {}
+export class NullLiteral extends Literal {}
+export class BooleanLiteral extends Literal {}
 
 export class Return extends Base {
   expression?: Base;
 
   constructor(expression?: Base);
 }
+export class YieldReturn extends Return {}
 
 export class Value extends Base {
   base: Base;
@@ -286,7 +298,6 @@ export class Comment extends Base {
  */
 export class Call extends Base {
   isNew: boolean;
-  isSuper: boolean;
   soak: boolean;
   do: boolean;
   variable: Base | null;
@@ -298,6 +309,18 @@ export class Call extends Base {
   newInstance(): Base;
 
   /**
+   * If you call a function with a splat, it's converted into a JavaScript
+   * `.apply()` call to allow an array of arguments to be passed.
+   * If it's a constructor, then things get real tricky. We have to inject an
+   * inner constructor in order to be able to pass the varargs.
+   *
+   * splatArgs is an array of CodeFragments to put into the 'apply'.
+   */
+  compileSplat(o: CompileContext, splatArgs: Array<CodeFragment>): Array<CodeFragment>;
+}
+
+export class SuperCall extends Call {
+  /**
    * Grab the reference to the superclass's implementation of the current
    * method.
    */
@@ -307,16 +330,6 @@ export class Call extends Base {
    * The appropriate `this` value for a `super` call.
    */
   superThis(o: CompileContext): string;
-
-  /**
-   * If you call a function with a splat, it's converted into a JavaScript
-   * `.apply()` call to allow an array of arguments to be passed.
-   * If it's a constructor, then things get real tricky. We have to inject an
-   * inner constructor in order to be able to pass the varargs.
-   *
-   * splatArgs is an array of CodeFragments to put into the 'apply'.
-   */
-  compileSplat(o: CompileContext, splatArgs: Array<CodeFragment>): Array<CodeFragment>;
 }
 
 
@@ -563,7 +576,6 @@ export class Op extends Base {
 
   isSimpleNumber(): boolean;
   isYield(): boolean;
-  isYieldReturn(): boolean;
   isUnary(): boolean;
   isChainable(): boolean;
 
