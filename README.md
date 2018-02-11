@@ -2,6 +2,7 @@
 
 This is is a fork of the CoffeeScript implementation with some small patches
 that are useful to the [decaffeinate](http://decaffeinate-project.org/) project.
+It also contains TypeScript types for working with the CoffeeScript AST.
 
 It is available on npm under the name
 [decaffeinate-coffeescript](https://www.npmjs.com/package/decaffeinate-coffeescript),
@@ -18,13 +19,13 @@ have very few changes, we'll just follow the process manually for now.
 ### Branch/release strategy
 
 All work is done on a branch directly off of the most recent release, currently
-1.10.0. Work is done on a branch called `decaffeinate-fork-1.10.0`, which is
+1.12.7. Work is done on a branch called `decaffeinate-fork-1.12.7`, which is
 also specified as the GitHub default branch. Ideally, the git history should be
 clean, and make it clear which changes have been made on top of the official
 release.
 
 Release names are based on the CoffeeScript release, with a patch number as a
-suffix. So the first patch is version `1.10.0-patch1`, then `1-10.0-patch2`,
+suffix. So the first patch is version `1.12.7-patch.1`, then `1-12.7-patch.2`,
 etc. Semantic versioning isn't too important here since this package is just for
 internal use within the decaffeinate project.
 
@@ -35,7 +36,7 @@ patch is a bug fix, we also make a reasonable effort to submit a PR to the
 official CoffeeScript repo on the master branch.
 
 Once the patch is landed, we make another commit updating package.json with the
-new version number publish the result to npm.
+new version number and publish the result to npm.
 
 ### Dealing with CoffeeScript updates
 
