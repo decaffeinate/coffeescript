@@ -332,6 +332,14 @@ export class SuperCall extends Call {
   superThis(o: CompileContext): string;
 }
 
+/**
+ * Regexes with interpolations are in fact just a variation of a `Call` (a
+ * `RegExp()` call to be precise) with a `StringWithInterpolations` inside.
+ */
+export class RegexWithInterpolations extends Call {}
+
+export class TaggedTemplateCall extends Call {}
+
 
 /**
  * Node to extend an object's prototype with an ancestor object.
@@ -469,6 +477,41 @@ export class Class extends Base {
    */
   ensureConstructor(name: string): void;
 }
+
+export class ModuleDeclaration extends Base {
+  clause: Base;
+  source: StringLiteral | undefined;
+}
+
+export class ImportDeclaration extends ModuleDeclaration {}
+
+export class ImportClause extends Base {
+  defaultBinding: ImportDefaultSpecifier | null;
+  namedImports: ImportSpecifierList | ImportNamespaceSpecifier | null;
+}
+
+export class ExportDeclaration extends ModuleDeclaration {}
+export class ExportNamedDeclaration extends ExportDeclaration {}
+export class ExportDefaultDeclaration extends ExportDeclaration {}
+export class ExportAllDeclaration extends ExportDeclaration {}
+
+export class ModuleSpecifierList<T extends ModuleSpecifier> extends Base {
+  specifiers: Array<T>
+}
+
+export class ImportSpecifierList extends ModuleSpecifierList<ImportSpecifier> {}
+export class ExportSpecifierList extends ModuleSpecifierList<ExportSpecifier> {}
+
+export class ModuleSpecifier extends Base {
+  // Could be either a regular Literal with value "*" or an IdentifierLiteral.
+  original: Literal;
+  alias: IdentifierLiteral | undefined;
+}
+
+export class ImportSpecifier extends ModuleSpecifier {}
+export class ImportDefaultSpecifier extends ImportSpecifier {}
+export class ImportNamespaceSpecifier extends ImportSpecifier {}
+export class ExportSpecifier extends ModuleSpecifier {}
 
 type AssignOptions = {
   param?: boolean;
@@ -657,6 +700,12 @@ export class Parens extends Base {
   constructor(body: Block);
 }
 
+/**
+ * Strings with interpolations are in fact just a variation of `Parens` with
+ * string concatenation inside.
+ */
+export class StringWithInterpolations extends Parens {}
+
 type ForOptions = {
   source: Base,
   guard?: Base,
@@ -679,6 +728,7 @@ export class For extends While {
   body: Block;
   own: boolean;
   object: boolean;
+  from: boolean;
   returns: boolean;
   name?: Base;
   index?: Base;
