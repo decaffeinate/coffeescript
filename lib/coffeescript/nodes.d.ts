@@ -149,6 +149,14 @@ export class Base {
 }
 
 /**
+ * A **HoistTargetNode** represents the output location in the node tree for a hoisted node.
+ # See Base#hoist.
+ */
+export class HoistTarget extends Base {
+  source: Base;
+}
+
+/**
  * The block is the list of expressions that forms the body of an
  * indented block of code -- the implementation of a function, a clause in an
  * `if`, `switch`, or `try`, and so on...
@@ -157,7 +165,7 @@ export class Block extends Base {
   expressions: Array<Base>;
   classBody?: boolean;
 
-  children: ['expressions']
+  children: ['expressions'];
 
   /**
    * Tack an expression on to the end of this expression list.
@@ -232,7 +240,9 @@ export class StringLiteral extends Literal {}
 export class RegexLiteral extends Literal {}
 export class PassthroughLiteral extends Literal {}
 export class IdentifierLiteral extends Literal {}
+export class CSXTag extends Literal {}
 export class PropertyName extends Literal {}
+export class ComputedPropertyName extends Literal {}
 export class StatementLiteral extends Literal {}
 export class ThisLiteral extends Literal {}
 export class UndefinedLiteral extends Literal {}
@@ -245,6 +255,7 @@ export class Return extends Base {
   constructor(expression?: Base);
 }
 export class YieldReturn extends Return {}
+export class AwaitReturn extends Return {}
 
 export class Value extends Base {
   base: Base;
@@ -286,11 +297,8 @@ export class Value extends Base {
   cacheReference(o: CompileContext): [Base, Base];
 }
 
-export class Comment extends Base {
-  comment: string;
-
-  constructor(comment: string);
-}
+export class HereComment extends Base {}
+export class LineComment extends Base {}
 
 /**
  * Node for a function invocation. Takes care of converting `super()` calls into
@@ -300,6 +308,7 @@ export class Call extends Base {
   isNew: boolean;
   soak: boolean;
   do: boolean;
+  csx: boolean;
   variable: Base | null;
   args: Array<Base>;
 
@@ -330,6 +339,10 @@ export class SuperCall extends Call {
    * The appropriate `this` value for a `super` call.
    */
   superThis(o: CompileContext): string;
+}
+
+export class Super extends Base {
+  accessor: Access;
 }
 
 /**
@@ -550,6 +563,10 @@ export class Code extends Base {
   makeScope(parentScope?: Scope): Scope;
 }
 
+export class FuncGlyph extends Base {
+  glyph: string;
+}
+
 /**
  * A parameter in a function definition. Beyond a typical Javascript parameter,
  * these parameters can also attach themselves to the context of the function,
@@ -589,6 +606,8 @@ export class Splat extends Base {
 export class Expansion extends Base {
   asReference(o: CompileContext): this;
 }
+
+export class Elision extends Base {}
 
 /**
  * A while loop, the only sort of low-level loop exposed by CoffeeScript. From
@@ -700,11 +719,9 @@ export class Parens extends Base {
   constructor(body: Block);
 }
 
-/**
- * Strings with interpolations are in fact just a variation of `Parens` with
- * string concatenation inside.
- */
-export class StringWithInterpolations extends Parens {}
+export class StringWithInterpolations extends Base {
+  body: Block;
+}
 
 type ForOptions = {
   source: Base,
