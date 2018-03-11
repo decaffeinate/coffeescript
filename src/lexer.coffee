@@ -571,7 +571,7 @@ exports.Lexer = class Lexer
         prev[0] not in COMPARABLE_LEFT_SIDE
       )
       [input, id, colon] = match
-      origin = @token 'CSX_TAG', id, 1, id.length
+      origin = @token 'CSX_TAG', id, 0, id.length + 1
       @token 'CALL_START', '('
       @token '[', '['
       @ends.push tag: '/>', origin: origin, name: id
@@ -798,7 +798,7 @@ exports.Lexer = class Lexer
       unless braceInterpolator
         # We are not using `{` and `}`, so wrap the interpolated tokens instead.
         open = @makeToken '(', '(', offsetInChunk, 0
-        close = @makeToken ')', ')', offsetInChunk + index, 0
+        close = @makeToken ')', ')', offsetInChunk + index - 1, 0
         nested = [open, nested..., close]
 
       # Push a fake `'TOKENS'` token, which will get turned into real tokens later.
