@@ -242,7 +242,7 @@ export class PassthroughLiteral extends Literal {}
 export class IdentifierLiteral extends Literal {}
 export class CSXTag extends Literal {}
 export class PropertyName extends Literal {}
-export class ComputedPropertyName extends Literal {}
+export class ComputedPropertyName extends PropertyName {}
 export class StatementLiteral extends Literal {}
 export class ThisLiteral extends Literal {}
 export class UndefinedLiteral extends Literal {}
