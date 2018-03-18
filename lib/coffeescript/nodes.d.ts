@@ -557,6 +557,7 @@ export class Code extends Base {
   body: Block;
   bound: boolean;
   isGenerator: boolean;
+  isAsync: boolean;
 
   constructor(params?: Array<Base>, body?: Block, tag?: string);
 
