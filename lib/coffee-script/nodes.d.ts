@@ -479,11 +479,14 @@ export class Class extends Base {
 }
 
 export class ModuleDeclaration extends Base {
-  clause: Base;
+  clause: Base | null;
   source: StringLiteral | undefined;
 }
 
-export class ImportDeclaration extends ModuleDeclaration {}
+export class ImportDeclaration extends ModuleDeclaration {
+  clause: ImportClause | null;
+  source: StringLiteral;
+}
 
 export class ImportClause extends Base {
   defaultBinding: ImportDefaultSpecifier | null;
@@ -493,7 +496,9 @@ export class ImportClause extends Base {
 export class ExportDeclaration extends ModuleDeclaration {}
 export class ExportNamedDeclaration extends ExportDeclaration {}
 export class ExportDefaultDeclaration extends ExportDeclaration {}
-export class ExportAllDeclaration extends ExportDeclaration {}
+export class ExportAllDeclaration extends ExportDeclaration {
+  source: StringLiteral;
+}
 
 export class ModuleSpecifierList<T extends ModuleSpecifier> extends Base {
   specifiers: Array<T>
